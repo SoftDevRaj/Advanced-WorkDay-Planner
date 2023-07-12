@@ -1,7 +1,3 @@
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
-
 $(document).ready(function(){
    
   // TODO: Add a listener for click events on the save button. This code should
@@ -11,32 +7,37 @@ $(document).ready(function(){
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
   //
-  // TODO: Add code to apply the past, present, or future class to each time
-  // block by comparing the id to the current hour. HINTS: How can the id
-  // attribute of each time-block be used to conditionally add or remove the
-  // past, present, and future classes? How can Day.js be used to get the
-  // current hour in 24-hour time?
+  var currentHour = dayjs().hour(); // gets current hour in 24hr format
 
-  // Gets current hour using Day.js
-  let currentHour = dayjs().hour();
-  // Goes through each of the hour blocks
   $(".row.time").each(function() {
-  let blockHour = $(this).data("hour"); // Get hour from data-hour attribute
+    var blockHour = $(this).data("hour"); // get hour from data-hour attribute
+    var textareaElement = $(this).find("textarea"); // find the textarea element
 
-  // If block hour matches current hour, updates the text in the textarea
-  if (blockHour == currentHour) {
-    $(this).find("textarea").val("This is the current hour");
-  }
-});
+    if (blockHour == currentHour) {
+      textareaElement.val("This is the current hour");
+      textareaElement.removeClass("past future"); // remove past and future classes
+      textareaElement.addClass("present"); // add present class for current hour
+    } else if (blockHour < currentHour) {
+      textareaElement.val("");
+      textareaElement.removeClass("present future"); // remove present and future classes
+      textareaElement.addClass("past"); // add past class for past hours
+    } else {
+      textareaElement.val("");
+      textareaElement.removeClass("past present"); // remove past and present classes
+      textareaElement.addClass("future"); // add future class for future hours
+    }
+  });
   //
   // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
   //
-  // TODO: Add code to display the current date in the header of the page.
-
-  var today = dayjs(); //Gets today's date
-  $("#currentDay").text(today.format("MMM D, YYYY")); //Marks the current date at the top of the page
+  
+  
+  //Gets today's date
+  var today = dayjs(); 
+  //Marks the current date at the top of the page
+  $("#currentDay").text(today.format("MMM D, YYYY")); 
 
 });
 
