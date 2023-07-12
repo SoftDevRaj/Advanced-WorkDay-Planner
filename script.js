@@ -1,12 +1,20 @@
 $(document).ready(function(){
    
-  // TODO: Add a listener for click events on the save button. This code should
-  // use the id in the containing time-block as a key to save the user input in
-  // local storage. HINT: What does `this` reference in the click listener
-  // function? How can DOM traversal be used to get the "hour-x" id of the
-  // time-block containing the button that was clicked? How might the id be
-  // useful when saving the description in local storage?
-  //
+var saveButtons = document.getElementsByClassName("saveBtn");
+for (var i = 0; i < saveButtons.length; i++) {
+  saveButtons[i].addEventListener("click", function() {
+    var textareaElement = this.parentNode.querySelector("textarea"); // Get the corresponding textarea element
+    var userInput = textareaElement.value; // Get the user input from the textarea
+    var hourBlockId = this.parentNode.id; // Get the ID of the parent hour block
+
+    localStorage.setItem(hourBlockId, userInput); // Save the user input to local storage
+  });
+}
+ //https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
+ //https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector
+ //https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByClassName
+ //https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
+
   var currentHour = dayjs().hour(); // gets current hour in 24hr format
 
   $(".row.time").each(function() {
