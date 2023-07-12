@@ -17,15 +17,27 @@ $(document).ready(function(){
   // past, present, and future classes? How can Day.js be used to get the
   // current hour in 24-hour time?
 
-  dayjs().hour(); // gets current hour
-  newDate = dayjs().hour(12); // returns new dayjs object
+  // Gets current hour using Day.js
+  let currentHour = dayjs().hour();
+  // Goes through each of the hour blocks
+  $(".row.time").each(function() {
+  let blockHour = $(this).data("hour"); // Get hour from data-hour attribute
+
+  // If block hour matches current hour, updates the text in the textarea
+  if (blockHour == currentHour) {
+    $(this).find("textarea").val("This is the current hour");
+  }
+});
   //
   // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
   //
   // TODO: Add code to display the current date in the header of the page.
-  
+
+  var today = dayjs(); //Gets today's date
+  $("#currentDay").text(today.format("MMM D, YYYY")); //Marks the current date at the top of the page
+
 });
 
 
